@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventarios - Churrolados</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="html5-qrcode.min.js"></script>
+    <script type="module" src="inventory.js"></script>
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center logo-container">
+            <img src="logo.webp" alt="Logo Churrolados" class="logo my-4">
+        </div>
+        <h1 class="text-center">Gestión de Inventarios - Churrolados</h1>
+
+        <h2 class="text-center mt-4">Agregar Producto con Proveedor</h2>
+        <form id="product-form" class="my-4">
+            <div class="form-group">
+                <select id="provider-id" class="form-control" required>
+                    <option value="" disabled selected>Seleccione un proveedor</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="number" id="product-id" class="form-control" placeholder="ID del producto" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="product-name" class="form-control" placeholder="Nombre del producto" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="product-quantity" class="form-control" placeholder="Cantidad" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Agregar Producto</button>
+        </form>
+
+        <div class="text-center my-2">
+            <button id="scan-qr" class="btn btn-primary">Agregar mediante QR</button>
+        </div>
+        <div id="qr-simulation" class="text-center" style="display: none;">
+            <input type="text" id="qr-input" class="form-control" placeholder="Escaneo de QR simulado (e.g. id=1;providerId=1;name=Producto1;quantity=10;service=Empaques;city=Santiago)">
+            <button id="simulate-qr-scan" class="btn btn-info mt-2">Simular Escaneo de QR</button>
+        </div>
+        <div id="qr-reader" class="my-4" style="width: 300px; margin: auto;"></div>
+        
+        <h2 class="text-center mt-4">Inventario</h2>
+        <ul id="inventory-list" class="list-group"></ul>
+        <div class="pagination-container text-center my-4">
+            <button id="prev-page" class="btn btn-secondary" disabled>Anterior</button>
+            <span id="page-info">Página 1</span>
+            <button id="next-page" class="btn btn-secondary">Siguiente</button>
+        </div>
+        <div class="text-center my-2">
+            <button id="export-pdf" class="btn btn-warning">Exportar a PDF</button>
+            <button id="export-excel" class="btn btn-success">Exportar a Excel</button>
+        </div>
+        <h2 class="text-center mt-4">Leyenda de Proveedores</h2>
+        <ul id="provider-legend" class="list-group"></ul>
+    </div>
+
+    <!-- Modal de edición -->
+    <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Cantidad</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form">
+                        <div class="form-group">
+                            <input type="number" id="edit-quantity" class="form-control" placeholder="Nueva Cantidad" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de alerta de stock bajo -->
+    <div id="low-stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lowStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lowStockModalLabel">Alerta de Stock Bajo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Los siguientes productos tienen una cantidad baja:</p>
+                    <ul id="low-stock-list" class="list-group"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de confirmación de producto escaneado -->
+    <div id="product-details-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailsModalLabel">Detalles del Producto Escaneado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>ID del Producto: <span id="modal-product-id"></span></p>
+                    <p>ID del Proveedor: <span id="modal-provider-id"></span></p>
+                    <p>Nombre del Producto: <span id="modal-product-name"></span></p>
+                    <p>Cantidad: <span id="modal-product-quantity"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="confirm-add-product" class="btn btn-primary">Agregar Producto</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

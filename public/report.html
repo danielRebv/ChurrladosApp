@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes de Inventario - Churrolados</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> <!-- Asegúrate de que esta línea está presente -->
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <img src="utrYastMS12gtBOHSwDA_Lw9yxZRmRl0tO2Es.webp" alt="Logo Churrolados" class="logo my-4">
+        </div>
+        <h1 class="text-center">Reportes de Inventario - Churrolados</h1>
+        
+        <h2 class="text-center mt-4">Gráfico de Cantidad de Productos</h2>
+        <canvas id="inventoryChart" width="400" height="200"></canvas>
+        
+        <h2 class="text-center mt-4">Gráfico de Proveedores</h2>
+        <canvas id="providerChart" width="400" height="200"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

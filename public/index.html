@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Churrolados</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="login.css"> <!-- Incluir el archivo de estilos específicos para login -->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="login-box">
+            <img src="logo.webp" alt="Logo Churrolados" class="logo">
+            <h2>Inicio de Sesión</h2>
+            <form id="login-form">
+                <div class="input-text">
+                    <i class="material-icons">email</i>
+                    <input type="text" id="username" required>
+                    <label>Introduce tu nombre de usuario</label>
+                </div>
+                <div class="input-text">
+                    <i class="material-icons">lock</i>
+                    <input type="password" id="password" required>
+                    <label>Introduce tu contraseña</label>
+                </div>
+                <div class="fget">
+                    <label for="remember">
+                        <input type="checkbox" class="remember">
+                        <p>Recuérdame</p>
+                    </label>
+                    <a href="forgotPassword.html">¿Olvidaste tu contraseña?</a>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+                <div class="register">
+                    <p>¿No tienes una cuenta? <a href="register.html">Regístrate</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="login.js"></script> <!-- Incluir el script para manejar el login -->
+</body>
+</html>

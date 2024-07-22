@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 0 10px;
+    background: #f0f0f0;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('background.jpg'); /* Asegúrate de que la ruta del archivo sea correcta */
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.wrapper {
+    width: 700px; /* Incrementar el ancho */
+    padding: 80px; /* Incrementar el padding */
+    text-align: center;
+    background-color: rgba(34, 34, 34, 0.85); /* Cambiar el fondo a gris oscuro */
+    box-shadow: 0 4px 60px rgba(0, 0, 0, 0.2); /* Aumentar la sombra para darle más profundidad */
+    border-radius: 40px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 200px; /* Incrementar el tamaño del logo */
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+h2 {
+    font-size: 36px; /* Incrementar el tamaño del texto */
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.material-icons {
+    position: absolute;
+    margin-right: 100%;
+    top: 36%;
+    color: #fff;
+    font-size: 36px; /* Incrementar el tamaño del icono */
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 10,
+        'GRAD' 0,
+        'opsz' 10;
+}
+
+.input-text {
+    position: relative;
+    border-bottom: 2px solid #fff;
+    margin: 30px 0; /* Incrementar el margen */
+    width: 100%;
+    left: 0%;
+}
+
+.input-text label {
+    position: absolute;
+    top: 36%;
+    left: 11%;
+    transform: translateY(50%);
+    color: rgba(255, 254, 254, 0.81);
+    font-size: 24px; /* Incrementar el tamaño del texto */
+    pointer-events: none;
+    transition: 0.15s ease;
+}
+
+.input-text input {
+    width: 100%;
+    height: 80px; /* Incrementar la altura del input */
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 24px; /* Incrementar el tamaño del texto */
+    color: #10b3ff;
+}
+
+.input-text input:focus ~ label {
+    font-size: 20px;
+    top: 10px;
+    transform: translateY(-120%);
+}
+
+.fget {
+    display: flex;
+    justify-content: space-between;
+    margin: 45px 0 55px 0;
+    font-size: 20px; /* Incrementar el tamaño del texto */
+    color: rgba(255, 254, 254, 0.81);
+}
+
+.fget label {
+    display: flex;
+    align-items: center;
+}
+
+.fget label p {
+    margin-left: 5px;
+}
+
+.remember {
+    position: relative;
+    left: 0%;
+    accent-color: rgba(255, 254, 254, 0.81);
+}
+
+.wrapper a {
+    position: relative;
+    left: 0%;
+    color: #fff;
+    text-decoration: none;
+}
+
+.wrapper a:hover {
+    text-decoration: underline;
+}
+
+button {
+    position: relative;
+    background: rgba(168, 225, 235, 0.67);
+    color: #000;
+    border: none;
+    padding: 30px 0px; /* Incrementar el padding */
+    border-radius: 20px;
+    font-size: 24px; /* Incrementar el tamaño del texto */
+    font-weight: 600;
+    width: 80%; /* Incrementar el ancho del botón */
+    left: 10%; /* Centrar el botón */
+    border: 1px solid transparent;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    color: #fff;
+    border-color: #fff;
+    background: rgba(168, 225, 235, 0.31);
+}
+
+.register {
+    text-align: center;
+    margin-top: 50px;
+    color: #fff;
+    font-size: 20px; /* Incrementar el tamaño del texto */
+}
